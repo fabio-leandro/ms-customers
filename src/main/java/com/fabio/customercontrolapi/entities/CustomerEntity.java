@@ -19,10 +19,13 @@ public class CustomerEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long customerCode;
+    @Column(nullable = false, length = 100)
     private String name;
-
+    @Column(nullable = false, length =10 )
     private LocalDate birthDate;
+    @Column(nullable = false,unique = true, length = 11)
     private String cpf;
+    @Column(nullable = false, length = 1)
     private Character gender;
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,
             CascadeType.MERGE, CascadeType.REMOVE})

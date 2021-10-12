@@ -23,6 +23,7 @@ public class AddressDTO {
     @NotBlank(message = "The field cannot be blank.")
     private String country;
     @NotBlank(message = "The field cannot be blank.")
+    @Size(min = 8, max = 8, message = "The field must have 8 characters and just numbers.")
     private String cep;
 
 }

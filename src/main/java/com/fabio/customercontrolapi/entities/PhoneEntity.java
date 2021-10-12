@@ -15,7 +15,9 @@ public class PhoneEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long phoneCode;
+    @Column(nullable = false, length = 20)
     private PhoneType type;
+    @Column(nullable = false, length = 30)
     private String number;
 
 }

@@ -15,9 +15,14 @@ public class AddressEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long addressCode;
+    @Column(nullable = false, length = 100)
     private String address;
+    @Column(nullable = false, length = 100)
     private String city;
+    @Column(nullable = false, length = 2)
     private String state;
+    @Column(nullable = false, length = 3)
     private String country;
+    @Column(nullable = false, length = 10)
     private String cep;
 }
