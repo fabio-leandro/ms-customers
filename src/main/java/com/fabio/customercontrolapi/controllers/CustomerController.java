@@ -2,6 +2,7 @@ package com.fabio.customercontrolapi.controllers;
 
 import com.fabio.customercontrolapi.controllers.validations.CustomerValidationsErrors;
 import com.fabio.customercontrolapi.dtos.CustomerDTO;
+import com.fabio.customercontrolapi.exceptions.CustomerNotFoundException;
 import com.fabio.customercontrolapi.services.CustomerService;
 import com.fasterxml.jackson.core.JsonParseException;
 import org.springframework.http.HttpStatus;
@@ -16,17 +17,24 @@ import java.util.Map;
 @RequestMapping("/api/v1/customers")
 public class CustomerController {
 
-    private CustomerService springDataCustomerService;
+    private CustomerService customerService;
 
     public CustomerController(CustomerService springDataCustomerService) {
-        this.springDataCustomerService = springDataCustomerService;
+        this.customerService = springDataCustomerService;
     }
 
     @PostMapping
     public ResponseEntity<CustomerDTO> save(@RequestBody @Valid CustomerDTO customerDTO){
-       CustomerDTO customerDTOReponse = springDataCustomerService.save(customerDTO);
+       CustomerDTO customerDTOReponse = customerService.save(customerDTO);
        return ResponseEntity.status(HttpStatus.CREATED).body(customerDTOReponse);
     }
+
+    @GetMapping("/{cpf}")
+    public ResponseEntity<CustomerDTO> findByCpf(@PathVariable String cpf) throws CustomerNotFoundException {
+        CustomerDTO customerDTO = customerService.findByCpf(cpf);
+        return ResponseEntity.status(HttpStatus.OK).body(customerDTO);
+    }
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

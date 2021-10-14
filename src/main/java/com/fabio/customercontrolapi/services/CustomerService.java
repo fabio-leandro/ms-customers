@@ -3,10 +3,13 @@ package com.fabio.customercontrolapi.services;
 
 import com.fabio.customercontrolapi.dtos.CustomerDTO;
 import com.fabio.customercontrolapi.entities.CustomerEntity;
+import com.fabio.customercontrolapi.exceptions.CustomerNotFoundException;
 import com.fabio.customercontrolapi.repositories.CustomerRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+
 
 @Service
 public class CustomerService {
@@ -25,6 +28,13 @@ public class CustomerService {
         customerRepository.save(customerEntity);
         return modelMapper.map(customerEntity,CustomerDTO.class);
     }
+
+    public CustomerDTO findByCpf(String cpf) throws CustomerNotFoundException {
+        CustomerEntity customerEntity = customerRepository.findByCpf(cpf)
+                .orElseThrow(() -> new CustomerNotFoundException("Not found Customer with cpf: "+cpf));
+        return  modelMapper.map(customerEntity,CustomerDTO.class);
+    }
+
 
 
 
