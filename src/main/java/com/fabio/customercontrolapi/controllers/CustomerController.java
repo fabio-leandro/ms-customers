@@ -2,6 +2,7 @@ package com.fabio.customercontrolapi.controllers;
 
 import com.fabio.customercontrolapi.controllers.validations.CustomerValidationsErrors;
 import com.fabio.customercontrolapi.dtos.CustomerDTO;
+import com.fabio.customercontrolapi.entities.CustomerEntity;
 import com.fabio.customercontrolapi.exceptions.CustomerNotFoundException;
 import com.fabio.customercontrolapi.services.CustomerService;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -25,14 +26,28 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<CustomerDTO> save(@RequestBody @Valid CustomerDTO customerDTO){
-       CustomerDTO customerDTOReponse = customerService.save(customerDTO);
-       return ResponseEntity.status(HttpStatus.CREATED).body(customerDTOReponse);
+       CustomerDTO customerDTOResponse = customerService.save(customerDTO);
+       return ResponseEntity.status(HttpStatus.CREATED).body(customerDTOResponse);
     }
 
     @GetMapping("/{cpf}")
     public ResponseEntity<CustomerDTO> findByCpf(@PathVariable String cpf) throws CustomerNotFoundException {
         CustomerDTO customerDTO = customerService.findByCpf(cpf);
         return ResponseEntity.status(HttpStatus.OK).body(customerDTO);
+    }
+
+    @PutMapping("/{cpf}")
+    public ResponseEntity<CustomerDTO> updateByCpf
+            (@PathVariable String  cpf, @RequestBody @Valid CustomerDTO customerDTO)
+            throws CustomerNotFoundException{
+       CustomerDTO customerDTOResponse = customerService.updateBYCpf(cpf,customerDTO);
+       return ResponseEntity.status(HttpStatus.OK).body(customerDTOResponse);
+    }
+
+    @DeleteMapping("/{cpf}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteByCpf(@PathVariable String  cpf) throws CustomerNotFoundException{
+        customerService.deleteByCpf(cpf);
     }
 
 

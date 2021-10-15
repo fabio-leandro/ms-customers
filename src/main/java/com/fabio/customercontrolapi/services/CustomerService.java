@@ -36,10 +36,15 @@ public class CustomerService {
     }
 
 
+    public CustomerDTO updateBYCpf(String cpf, CustomerDTO customerDTO) throws CustomerNotFoundException {
+        findByCpf(cpf);
+        CustomerEntity customerEntity = modelMapper.map(customerDTO,CustomerEntity.class);
+        customerRepository.save(customerEntity);
+        return modelMapper.map(customerEntity,CustomerDTO.class);
+    }
 
-
-
-
-
-
+    public void deleteByCpf(String cpf) throws CustomerNotFoundException {
+        CustomerDTO customerDTO = findByCpf(cpf);
+        customerRepository.deleteById(customerDTO.getCustomerCode());
+    }
 }

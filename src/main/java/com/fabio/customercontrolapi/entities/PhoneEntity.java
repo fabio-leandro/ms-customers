@@ -17,7 +17,7 @@ public class PhoneEntity implements Serializable {
     private Long phoneCode;
     @Column(nullable = false, length = 20)
     private PhoneType type;
-    @Column(nullable = false, length = 30)
+    @Column(unique = true, nullable = false, length = 30)
     private String number;
 
 }
